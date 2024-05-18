@@ -1,0 +1,24 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+option csharp_namespace = "SuperAdmin.Service";
+
+package scheduleSalaryPayment;
+
+service GrpcSalaryDisbursementService{
+	rpc EnrolScheduledSalaryPaymentDate(EnrolScheduledSalaryPaymentRequest) returns (EnrolScheduledSalaryPaymentResponse);
+}
+
+// Requests
+// This request comes in when enroling a Pays company scheduled salary payment date
+message EnrolScheduledSalaryPaymentRequest {
+	string CompanyName = 1;
+	string JopPaysCompanyId = 2;
+	google.protobuf.Timestamp SalaryPaymentDate = 3;
+}
+
+// Responses
+// This response goes out when a Pays company has been enrolled and returns successful status
+message EnrolScheduledSalaryPaymentResponse {
+	bool IsSuccessful = 1;
+	string CompanySalaryDisbursementChargeSettingId = 2;
+}

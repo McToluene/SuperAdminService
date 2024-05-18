@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+option csharp_namespace = "Identification";
+
+service GrpcSubscriptionService {
+    rpc GetSummaryStatistics(SummaryStatisticsRequest) returns (SummaryStatisticsResponse) {}
+    rpc GetTotalSubscriptionsCount(SubscriptionStatisticsRequest) returns (TotalSubscriptionCountPerPlanResponse) {}
+    rpc GetPercentageIncrementPerPlan(SubscriptionStatisticsRequest) returns (PercentageIncrementPerPlanResponse) {}
+    rpc GetSubscribedCompanyDetail(SubscriptionQueryParametersRequest) returns (PagedSubscriptionCompanyDetail) {}
+}
+
+//Request
+message SummaryStatisticsRequest {
+    string application = 1;
+}
+
+enum TimePeriodFilter {
+    OneMonth = 0;
+    ThreeMonths = 1;
+    OneYear = 2;
+    AllTime = 3;
+    Custom = 4;
+}
+
+message SubscriptionStatisticsRequest {
+    string application = 1;
+    TimePeriodFilter periodFilter = 2;
+    string fromDate = 3;
+    string toDate = 4;
+}
+
+message SubscriptionQueryParametersRequest {
+    string application = 1;
+    TimePeriodFilter periodFilter = 2;
+    string sortBy = 3;
+    int32 pageNumber = 4;
+    int32 pageSize = 5;
+    string fromDate = 6;
+    string toDate = 7;
+    string planId = 8;
+}
+
+
+//Response
+message SummaryStatisticsResponse {
+    int32 totalSubscriptions = 1;
+    int32 totalCompanies = 2;
+    double totalRevenue = 3;
+    int32 totalActive = 4;
+}
+
+message TotalSubscriptionCountPerPlan {
+    string pricingPlanId = 1;
+    string name = 2;
+    int32 subscriptionCount = 3;
+}
+
+message TotalSubscriptionCountPerPlanResponse {
+    repeated TotalSubscriptionCountPerPlan totalSubscriptionPerPlans = 1;
+}
+
+
+message PercentageIncrementPerPlan {
+    string pricingPlanId = 1;
+    string name = 2;
+    double percentageIncrement = 3;
+}
+
+message PercentageIncrementPerPlanResponse {
+    repeated PercentageIncrementPerPlan pecentageIncrement = 2;
+}
+
+message SubscriptionCompanyDetailResponse {
+    string companyName = 1;
+    string country = 2;
+    string email = 3;
+    string planName = 4;
+    int32 staffSize = 5;
+    string registrationDate = 6;
+}
+
+message PagedSubscriptionCompanyDetail {
+    repeated SubscriptionCompanyDetailResponse items = 1;
+    int64 totalSize = 2;
+    int64 pageNumber = 3;
+    int64 pageSize = 4;
+}

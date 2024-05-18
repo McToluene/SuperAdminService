@@ -1,0 +1,53 @@
+﻿syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+option csharp_namespace = "SuperAdmin.Service";
+
+package tenant;
+
+service GrpcTenantService {
+	rpc GetTenant(GetTenantRequest) returns (GetTenantResponse);
+	rpc GetAllTenants(GetAllTenantsRequest) returns (GetAllTenantResponse);
+	rpc GetUserCompanies(GetUserCompaniesRequest) returns (GetAllTenantResponse);
+}
+
+// Requests
+message GetTenantRequest {
+	string Id = 1;
+	string subdomain = 2;
+}
+
+message GetAllTenantsRequest {
+   string Id = 1;
+}
+
+message GetUserCompaniesRequest {
+	string UserId = 1;
+}
+
+//Responses
+message GetTenantResponse {
+	string Id = 1;
+	string WorkSpaceName = 2;
+	string CompanyName = 3;
+	string ContactNo = 4;
+	string Subdomain = 5;
+	string UpdatedBy = 6;
+	string SuperAdminId = 7;
+	string LogoUrl = 8;
+	int32 CompanySize = 9;
+	string Status = 10;
+	string Country = 11;
+	string CompanyType = 12;
+	string SubscriptionStatus = 13;
+	string CreatedOn = 14;
+	repeated GetCompanyApplicationsResponse Applications = 15;
+}
+
+message GetAllTenantResponse {
+	repeated GetTenantResponse Tenants = 1;
+}
+
+message GetCompanyApplicationsResponse {
+	string TenantId = 1;
+	string Application = 2;
+}

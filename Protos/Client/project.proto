@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+option csharp_namespace = "Identification";
+
+service GrpcProjectService {
+    rpc GetProjectCount(Empty) returns (ProjectCountStatisticResponse) {}
+    rpc GetTopPerformingCompaniesPercentage(Empty) returns (TopPerformingCompanies) {}
+    rpc GetProjectCompanyDetail(GetProjectCompanyDetailRequest) returns (PagedProjectCompanyDetail) {}
+}
+
+//Request
+message Empty {
+
+}
+
+message GetProjectCompanyDetailRequest {
+    string filter = 1;
+    int32 pageSize = 2;
+    int32 pageNumber = 3;
+}
+
+//Response
+message ProjectCount {
+    string month = 1;
+    int32 count = 2;
+}
+
+message ProjectCountStatisticResponse {
+    repeated ProjectCount projectCount = 1;
+}
+
+message TopPerformingCompany {
+    string companyName = 1;
+    int32 totalProjectCount = 2;
+    double percentageIncrement = 3;
+}
+
+message TopPerformingCompanies {
+    repeated TopPerformingCompany topPerformers = 1;
+}
+
+message ProjectCompanyDetail {
+    string companyName = 1;
+    int32 projectCount = 2;
+    string creationDate = 3;
+    int32 staffSize = 4;
+    int32 totalProjectCount = 5;
+}
+
+message PagedProjectCompanyDetail {
+    repeated ProjectCompanyDetail items = 1;
+    int64 totalSize = 2;
+    int64 pageNumber = 3;
+    int64 pageSize = 4;
+}
